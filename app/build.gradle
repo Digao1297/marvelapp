@@ -37,6 +37,9 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    buildFeatures{
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,7 +53,7 @@ dependencies {
 
     // Material design
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
 
     // Navigation
     def nav_version = '2.5.2'
