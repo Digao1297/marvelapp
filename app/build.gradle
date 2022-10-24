@@ -14,6 +14,10 @@ android {
     namespace 'com.example.marvelapp'
     compileSdk 33
 
+    def apikeyPropertiesFile = rootProject.file("apikey.properties")
+    def apikeyProperties = new Properties()
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
     defaultConfig {
         applicationId "com.example.marvelapp"
         minSdk 21
@@ -22,6 +26,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "PUBLIC_KEY", apikeyProperties['PUBLIC_KEY']
+        buildConfigField "String", "PRIVATE_KEY", apikeyProperties['PRIVATE_KEY']
+        buildConfigField "String", "BASE_URL", "https://gateway.marvel.com/v1/public/"
     }
 
     buildTypes {
