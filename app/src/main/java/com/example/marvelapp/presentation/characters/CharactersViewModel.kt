@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.core.domain.model.Character
+import com.example.core.usecase.GetCharactersParams
 import com.example.core.usecase.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ class CharactersViewModel @Inject constructor(
 
     fun charactersPagingData(query: String): Flow<PagingData<Character>> {
         return getCharactersUseCase(
-            GetCharactersUseCase.GetCharactersParams(query, getPagingConfig())
+            GetCharactersParams(query, getPagingConfig())
         ).cachedIn(viewModelScope)
     }
 
