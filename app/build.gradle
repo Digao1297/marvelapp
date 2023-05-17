@@ -11,12 +11,22 @@ apply from: '../config/detekt/detekt.gradle'
 
 
 android {
+
     namespace 'com.example.marvelapp'
     compileSdk 33
 
     def apikeyPropertiesFile = rootProject.file("apikey.properties")
     def apikeyProperties = new Properties()
     apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+    signingConfigs {
+        release {
+            storeFile file('../store/marvel_app_key_store.jks')
+            storePassword 'marvel@123'
+            keyPassword 'marvel@123'
+            keyAlias 'marvel-app'
+        }
+    }
 
     defaultConfig {
         applicationId "com.example.marvelapp"
@@ -33,8 +43,22 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            debuggable true
+        }
+        staging {
+            initWith debug
+            applicationIdSuffix '.staging'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro',
+                    'proguard-rules-staging.pro'
+        }
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
