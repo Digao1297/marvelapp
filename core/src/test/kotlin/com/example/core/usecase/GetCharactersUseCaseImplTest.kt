@@ -2,7 +2,6 @@ package com.example.core.usecase
 
 import androidx.paging.PagingConfig
 import com.example.core.data.repositories.CharactersRepository
-import com.example.core.usecase.params.GetCharactersParams
 import com.example.testing.MainCoroutineRule
 import com.example.testing.model.CharactersFactory
 import com.example.testing.pagingsource.PagingSourceFactory

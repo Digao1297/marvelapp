@@ -1,16 +1,16 @@
 package com.example.marvelapp.framework.network.response
 
-import com.example.core.domain.model.Comic
+import com.example.core.domain.model.Event
 import com.google.gson.annotations.SerializedName
 
-data class ComicResponse(
+data class EventResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("thumbnail")
     val thumbnail: ThumbnailResponse
 )
 
-fun ComicResponse.toComicModel(): Comic = Comic(
+fun EventResponse.toEventModel(): Event = Event(
     id = this.id,
-    imageUrl = this.thumbnail.getHttpsUrl(),
+    imageUrl = this.thumbnail.getHttpsUrl()
 )
