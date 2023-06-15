@@ -10,11 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.marvelapp.databinding.FragmentCharactersBinding
+import com.example.marvelapp.framework.imageloader.ImageLoader
+import com.example.marvelapp.presentation.detail.DetailViewArg
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -26,6 +31,9 @@ class CharactersFragment : Fragment() {
     private val viewModel: CharactersViewModel by viewModels()
 
     private lateinit var charactersAdapter: CharacterAdapter
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,9 +59,30 @@ class CharactersFragment : Fragment() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 
     private fun initCharactersAdapter() {
-        charactersAdapter = CharacterAdapter()
+        charactersAdapter = CharacterAdapter(imageLoader) { character, view ->
+            val extras = FragmentNavigatorExtras(
+                view to character.name
+            )
+
+            val directions = CharactersFragmentDirections
+                .actionCharactersFragmentToDetailFragment(
+                    character.name,
+                    DetailViewArg(
+                        characterId = character.id,
+                        name = character.name,
+                        imageUrl = character.imageUrl,
+                    )
+                )
+
+            findNavController().navigate(directions, extras)
+        }
 
         with(binding.recyclerViewCharacters) {
             scrollToPosition(0)

@@ -1,4 +1,4 @@
-package com.example.core.usecase
+package com.example.core.usecase.params
 
 import androidx.paging.PagingConfig
 

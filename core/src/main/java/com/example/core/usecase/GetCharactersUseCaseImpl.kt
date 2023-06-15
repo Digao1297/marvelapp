@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import com.example.core.data.repositories.CharactersRepository
 import com.example.core.domain.model.Character
 import com.example.core.usecase.base.PagingUseCase
+import com.example.core.usecase.params.GetCharactersParams
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
