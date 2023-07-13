@@ -3,8 +3,7 @@ package com.example.marvelapp.framework.paging
 import androidx.paging.PagingSource
 import com.example.core.data.repositories.CharactersRemoteDataSource
 import com.example.core.domain.model.Character
-import com.example.marvelapp.factory.response.DataWrapperResponseFactory
-import com.example.marvelapp.framework.network.response.DataWrapperResponse
+import com.example.marvelapp.factory.response.CharacterPagingFactory
 import com.example.testing.MainCoroutineRule
 import com.example.testing.model.CharactersFactory
 import com.nhaarman.mockitokotlin2.any
@@ -19,19 +18,19 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class CharactersPagingSourceTest {
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var charactersPagingSource: CharactersPagingSource
 
-    private val fakeDataWrapperResponseFactory = DataWrapperResponseFactory().create()
+    private val fakeCharacterPagingFactory = CharacterPagingFactory().create()
     private val charactersFactory = CharactersFactory()
 
     @Mock
-    lateinit var remoteDataSource: CharactersRemoteDataSource<DataWrapperResponse>
+    lateinit var remoteDataSource: CharactersRemoteDataSource
 
 
     @Before
@@ -39,12 +38,11 @@ class CharactersPagingSourceTest {
         charactersPagingSource = CharactersPagingSource(remoteDataSource, "")
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `should return a success load result when load is called`() = runTest {
         // Arrange
         whenever(remoteDataSource.fetchCharacters(any()))
-            .thenReturn(fakeDataWrapperResponseFactory)
+            .thenReturn(fakeCharacterPagingFactory)
 
         // Act
 
@@ -73,7 +71,6 @@ class CharactersPagingSourceTest {
         )
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `should return a error load result when load is called`() = runTest {
         // Arrange
