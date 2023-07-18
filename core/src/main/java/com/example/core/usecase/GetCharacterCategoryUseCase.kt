@@ -12,8 +12,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 interface GetCharacterCategoryUseCase {
-    operator fun invoke(params: GetComicsParams): Flow<ResultStatus<Pair<List<Comic>, List<Event>>>>
-    data class GetComicsParams(val characterId: Int)
+    operator fun invoke(params: GetCategoriesParams): Flow<ResultStatus<Pair<List<Comic>, List<Event>>>>
+    data class GetCategoriesParams(val characterId: Int)
 
 }
 
@@ -21,9 +21,9 @@ class GetCharacterCategoryUseCaseImpl @Inject constructor(
     private val repository: CharactersRepository,
     private val dispatchers: CoroutinesDispatchers,
 ) : GetCharacterCategoryUseCase,
-    UseCase<GetCharacterCategoryUseCase.GetComicsParams, Pair<List<Comic>, List<Event>>>() {
+    UseCase<GetCharacterCategoryUseCase.GetCategoriesParams, Pair<List<Comic>, List<Event>>>() {
 
-    override suspend fun doWork(params: GetCharacterCategoryUseCase.GetComicsParams):
+    override suspend fun doWork(params: GetCharacterCategoryUseCase.GetCategoriesParams):
             ResultStatus<Pair<List<Comic>, List<Event>>> {
 
         return withContext(dispatchers.io()) {
