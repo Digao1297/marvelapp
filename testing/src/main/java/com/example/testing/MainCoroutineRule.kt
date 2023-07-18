@@ -1,18 +1,28 @@
 package com.example.testing
 
+import com.example.core.usecase.base.CoroutinesDispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 @ExperimentalCoroutinesApi
 class MainCoroutineRule(
-    private val dispatcher: TestDispatcher = StandardTestDispatcher()
+    private val dispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
 ) : TestWatcher() {
+
+    val testDispatcherProvider = object : CoroutinesDispatchers {
+        override fun default(): CoroutineDispatcher = dispatcher
+        override fun io(): CoroutineDispatcher = dispatcher
+        override fun main(): CoroutineDispatcher = dispatcher
+        override fun unconfined(): CoroutineDispatcher = dispatcher
+    }
 
     override fun starting(description: Description) {
         super.starting(description)
