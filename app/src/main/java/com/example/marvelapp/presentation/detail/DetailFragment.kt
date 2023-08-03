@@ -76,9 +76,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun setAndObserveFavoriteUiState(detailViewArg: DetailViewArg) {
-        binding.imageFavoriteIcon.setOnClickListener {
-            viewModel.favorite.update(detailViewArg)
+
+        viewModel.favorite.run {
+            checkFavorite(detailViewArg.characterId)
+
+            binding.imageFavoriteIcon.setOnClickListener {
+                update(detailViewArg)
+            }
         }
+
 
         viewModel.favorite.state.observe(viewLifecycleOwner) { uiState ->
             binding.flipperFavorite.displayedChild = when (uiState) {
