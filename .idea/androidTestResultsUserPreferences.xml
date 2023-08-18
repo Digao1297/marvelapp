@@ -45,6 +45,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="28629151">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="LGE&#10; LG-M250" value="120" />
+                  <entry key="LGM250K7IBY9MZ69ZD" value="120" />
+                  <entry key="Tests" value="464" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="1054338806">
           <value>
             <AndroidTestResultsTableState>

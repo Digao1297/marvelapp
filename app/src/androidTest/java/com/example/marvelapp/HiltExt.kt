@@ -22,9 +22,12 @@ import android.os.Bundle
 import androidx.annotation.StyleRes
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
+import androidx.fragment.testing.R
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.fragment.testing.R
 
 /**
  * launchFragmentInContainer from the androidx.fragment:fragment-testing library
@@ -38,6 +41,7 @@ import androidx.fragment.testing.R
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    navHostController: NavHostController? = null,
     crossinline action: Fragment.() -> Unit = {}
 ) {
     val startActivityIntent = Intent.makeMainActivity(
@@ -56,6 +60,17 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
             T::class.java.name
         )
         fragment.arguments = fragmentArgs
+
+        fragment.viewLifecycleOwnerLiveData.observeForever { viewLifeCycleOwner ->
+            if (viewLifeCycleOwner != null) {
+                navHostController?.let {
+                    it.setViewModelStore(ViewModelStore())
+                    it.setGraph(com.example.marvelapp.R.navigation.main_nav)
+                    Navigation.setViewNavController(fragment.requireView(), it)
+                }
+            }
+        }
+
         activity.supportFragmentManager
             .beginTransaction()
             .add(android.R.id.content, fragment, "")
