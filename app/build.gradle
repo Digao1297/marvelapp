@@ -159,6 +159,9 @@ dependencies {
 
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1'
 
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+
 }
 
 kapt {
