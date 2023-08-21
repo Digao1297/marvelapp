@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -71,10 +70,6 @@ class CharactersFragment : Fragment(), SearchView.OnQueryTextListener,
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = FragmentCharactersBinding.inflate(inflater, container, false).apply {
@@ -89,7 +84,7 @@ class CharactersFragment : Fragment(), SearchView.OnQueryTextListener,
         observeInitialLoadState()
         observeSortingData()
 
-        (requireActivity() as MenuHost).addMenuProvider(
+        requireActivity().addMenuProvider(
             this,
             viewLifecycleOwner,
             Lifecycle.State.RESUMED
@@ -237,10 +232,10 @@ class CharactersFragment : Fragment(), SearchView.OnQueryTextListener,
             }
         }
 
-        navBackStackEntry.getLifecycle().addObserver(observer)
+        navBackStackEntry.lifecycle.addObserver(observer)
 
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_DESTROY) navBackStackEntry.getLifecycle()
+            if (event == Lifecycle.Event.ON_DESTROY) navBackStackEntry.lifecycle
                 .removeObserver(observer)
         })
     }
