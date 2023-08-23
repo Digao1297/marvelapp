@@ -6,6 +6,7 @@ buildscript {
     ext.detekt_version = '1.18.0'
     ext.coroutines_version = '1.7.1'
     ext.paging_version = '3.1.1'
+    ext.java_version = JavaVersion.VERSION_11
 
     repositories {
         google()
